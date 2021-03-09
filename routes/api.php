@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +25,9 @@ Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
 // 4. User untuk cek identitas yang login
 Route::get('user', [UserController::class, 'getAuthenticatedUser'])->middleware('jwt.verify');
+//
+Route::get('/products', [ProductController::class, 'index']);
+//
+Route::get('/products/distinct', [ProductController::class, 'distinctAll']);
+//
+Route::get('/products/{id}', [ProductController::class, 'show']);
