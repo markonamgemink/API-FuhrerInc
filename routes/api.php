@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -31,3 +32,9 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/distinct', [ProductController::class, 'distinctAll']);
 //
 Route::get('/products/{id}', [ProductController::class, 'show']);
+//
+Route::get('/cart', [CartController::class, 'index'])->middleware('jwt.verify');
+//
+Route::post('/cart', [CartController::class, 'update'])->middleware('jwt.verify');
+//
+Route::post('/cart/{id}/delete', [CartController::class, 'delete'])->middleware('jwt.verify');

@@ -59,4 +59,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role->permissions()->where('name', $permission)->first() ?: false;
     }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
 }
