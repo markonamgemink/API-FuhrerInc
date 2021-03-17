@@ -16,7 +16,7 @@ class CartSeeder extends Seeder
     {
         Cart::create([
             'id_user' => 2,
-            'id_product' => 1,
+            'id_stock' => 1,
             'total' => 1,
         ]);
     }

@@ -11,7 +11,7 @@ class Size extends Model
 
     protected $guarded = [];
 
-    public function products()
+    public function stock()
     {
         return $this->hasMany(Product::class);
     }

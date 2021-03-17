@@ -29,7 +29,7 @@ Route::get('user', [UserController::class, 'getAuthenticatedUser'])->middleware(
 //
 Route::get('/products', [ProductController::class, 'index']);
 //
-Route::get('/products/distinct', [ProductController::class, 'distinctAll']);
+// Route::get('/products/distinct', [ProductController::class, 'distinctAll']);
 //
 Route::get('/products/{id}', [ProductController::class, 'show']);
 //

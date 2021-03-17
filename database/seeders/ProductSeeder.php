@@ -17,28 +17,19 @@ class ProductSeeder extends Seeder
         Product::create([
             'name' => 'Kaos Oblong',
             'desc' => 'Lorem ipsum sol dolor ahmed',
-            'price' => 75000,
-            'stock' => 10,
             'image' => 'a.jpg',
-            'id_size' => 3,
             'id_category' => 1,
         ]);
         Product::create([
-            'name' => 'Kaos Oblong',
+            'name' => 'Kaos Polos',
             'desc' => 'Lorem ipsum sol dolor ahmed',
-            'price' => 100000,
-            'stock' => 10,
             'image' => 'a.jpg',
-            'id_size' => 5,
             'id_category' => 1,
         ]);
         Product::create([
-            'name' => 'Kaos Oblong',
+            'name' => 'Kaos Kutungan',
             'desc' => 'Lorem ipsum sol dolor ahmed',
-            'price' => 80000,
-            'stock' => 10,
             'image' => 'a.jpg',
-            'id_size' => 4,
             'id_category' => 1,
         ]);
     }

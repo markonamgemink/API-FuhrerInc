@@ -17,7 +17,8 @@ class CartResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'products' => new ProductResource($this->product),
+            'product' => new ProductResource($this->stock->product),
+            'stock' => new StockResource($this->stock),
             'total' => $this->total,
             'created' => Carbon::parse($this->created_at)->format('D, d M Y H:i'),
             'updated' => Carbon::parse($this->updated_at)->format('D, d M Y H:i'),

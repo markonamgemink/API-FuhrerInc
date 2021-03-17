@@ -26,7 +26,7 @@ class CartController extends Controller
 
         $if = Cart::where([
             'id_user' => auth()->id(),
-            'id_product' => $request->id_product
+            'id_stock' => $request->id_stock
         ])->first();
 
         $user = User::where('id', auth()->id())->first();
@@ -42,19 +42,19 @@ class CartController extends Controller
                 'user' => [
                     'name' => $user->name,
                 ],
-                'message' => 'succes update'
+                'message' => 'succes added'
             ]);
         }
 
         Cart::create([
             'id_user' => auth()->id(),
-            'id_product' => $request->id_product,
+            'id_stock' => $request->id_stock,
             'total' => $request->total
         ]);
 
         $cart = Cart::where([
             'id_user' => auth()->id(),
-            'id_product' => $request->id_product,
+            'id_stock' => $request->id_stock,
         ])->first();
 
         // return response()->json($cart);
@@ -70,7 +70,10 @@ class CartController extends Controller
     {
         $this->authorize('user');
 
-        Cart::destroy($id);
+        Cart::where([
+            'id_user' => auth()->id(),
+            'id' => $id,
+        ])->delete();
 
         return response()->json([
             'message' => 'delete succes'

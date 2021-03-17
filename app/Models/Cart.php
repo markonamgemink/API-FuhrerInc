@@ -11,9 +11,9 @@ class Cart extends Model
 
     protected $guarded = [];
 
-    public function product()
+    public function stock()
     {
-        return $this->belongsTo(Product::class, 'id_product', 'id');
+        return $this->belongsTo(Stock::class, 'id_stock');
     }
 
     public function user()
