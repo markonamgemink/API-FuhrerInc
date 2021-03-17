@@ -6,6 +6,7 @@ use App\Http\Resources\CartResource;
 use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -24,6 +25,18 @@ class CartController extends Controller
     {
         $this->authorize('user');
 
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'total' => 'required',
+                'id_stock' => 'required'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
         $if = Cart::where([
             'id_user' => auth()->id(),
             'id_stock' => $request->id_stock
@@ -32,6 +45,7 @@ class CartController extends Controller
         $user = User::where('id', auth()->id())->first();
 
         if ($if) {
+
             Cart::where('id', $if->id)->update([
                 'total' => $request->total,
             ]);

@@ -43,7 +43,8 @@ class UserController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name' => 'required|string|max:255',
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
             ]
@@ -54,7 +55,8 @@ class UserController extends Controller
         }
 
         $user = User::create([
-            'name' => $request->get('name'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
             'email' => $request->get('email'),
             'password' => Hash::make($request->get('password')),
             'role_id' => 2,
@@ -89,5 +91,69 @@ class UserController extends Controller
         }
 
         return new UserResource($user);
+    }
+
+    public function update(Request $request)
+    {
+        $this->authorize('user');
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'phone' => 'string|min:10|max:13',
+                'photo' => 'file|image|mimes:jpeg,png,jpg',
+                'district' => 'string|max:255',
+                'address' => 'string|max:255',
+                'postal_code' => 'string|max:255',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        }
+
+        $user = User::where([
+            'id' => auth()->id()
+        ])->first();
+
+        $file = $request->file('photo');
+        if ($file) {
+            File::delete('images/' . $user->photo);
+            $nama_file = time() . ' ' . $file->getClientOriginalName();
+            $tujuan_opload = 'photo';
+            $file->move($tujuan_opload, $nama_file);
+            User::where('id', $user->id)
+                ->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'phone' => $request->phone,
+                    'email' => $request->email,
+                    'district' => $request->district,
+                    'address' => $request->address,
+                    'id_province' => $request->id_province,
+                    'id_city' => $request->id_city,
+                    'postal_code' => $request->postal_code,
+                    'photo' => $nama_file,
+                ]);
+        } else {
+            User::where('id', $user->id)
+                ->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'phone' => $request->phone,
+                    'email' => $request->email,
+                    'district' => $request->district,
+                    'address' => $request->address,
+                    'id_province' => $request->id_province,
+                    'id_city' => $request->id_city,
+                    'postal_code' => $request->postal_code,
+                ]);
+        }
+        return (new UserResource($user))->additional([
+            'message' => 'succes update',
+        ]);
     }
 }
